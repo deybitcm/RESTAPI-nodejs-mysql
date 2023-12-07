@@ -1,19 +1,23 @@
 import { z } from 'zod'
 
 const esquemaProducto = z.object({
-  prd_nombre: z.string({
+  nombre: z.string({
     invalid_type_error: 'el nombre debe ser una cadena',
     required_error: 'el nombre es requerido'
   }),
-  prd_precio: z.number({
-    invalid_type_error: 'el precio debe ser un numero',
-    required_error: 'el precio es requerido'
-  }).nonnegative(),
-  prd_descp: z.string({
+  descripcion: z.string({
     invalid_type_error: 'descripcion debe ser una cadena',
     required_error: 'descripcion es requerido'
   }),
-  prd_stock: z.number({
+  costo: z.number({
+    invalid_type_error: 'costo debe ser un numero',
+    required_error: 'costo es requerido'
+  }).nonnegative(),
+  precio: z.number({
+    invalid_type_error: 'el precio debe ser un numero',
+    required_error: 'el precio es requerido'
+  }).nonnegative(),
+  stock: z.number({
     invalid_type_error: 'el stock debe ser un numero',
     required_error: 'el stock es requerido'
   }).nonnegative()
