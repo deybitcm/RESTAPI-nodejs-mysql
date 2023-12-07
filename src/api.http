@@ -1,0 +1,61 @@
+###Obtener todos los empleados
+GET http://localhost:3000/empleados
+
+###Obtener un empleado especificos
+GET http://localhost:3000/empleados/13
+
+###Registrar un nuevo empleado
+POST http://localhost:3000/empleados
+Content-Type: application/json
+
+{
+  "emp_nombre": "123123",
+  "emp_apellido": "adasd",
+  "emp_celular": "933456702",
+  "emp_salario": 901.11
+}
+
+###Actualizar datos de empleado
+PATCH http://localhost:3000/empleados/15
+Content-Type: application/json
+
+{
+  "emp_apellido": "Gutierrez",
+  "emp_celular": "999111000"
+}
+
+###Eliminar empleado
+DELETE http://localhost:3000/empleados/15
+
+
+
+
+###Productos:
+###Obtener todos los productos
+GET http://localhost:3000/productos
+
+###Obtener un producto especifico
+GET http://localhost:3000/productos/13
+
+###Registrar un nuevo producto
+POST http://localhost:3000/productos
+Content-Type: application/json
+
+{
+  "prd_nombre": "Celula222r",
+  "prd_precio": 600.00,
+  "prd_descp": "Celular Nokia 2004",
+  "prd_stock": 115
+}
+
+###Actualizar datos de producto
+PATCH http://localhost:3000/productos/13
+Content-Type: application/json
+
+{
+  "prd_descp": "Nueva descripcion",
+  "prd_precio": 111.00
+}
+
+###Eliminar producto
+DELETE http://localhost:3000/productos/14
