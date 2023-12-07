@@ -7,7 +7,7 @@ export class EmployeeModel {
   }
 
   static async getById ({ id }) {
-    const [row] = await pool.query('SELECT * FROM empleado WHERE emp_id = ?', [id])
+    const [row] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
     if (row[0] != null) {
       return row[0]
     }
@@ -22,7 +22,7 @@ export class EmployeeModel {
 
     await pool.query('INSERT INTO empleado set ?', [newProduct])
 
-    const [nuevoProducto] = await pool.query('SELECT * FROM empleado ORDER BY emp_id DESC limit 1')
+    const [nuevoProducto] = await pool.query('SELECT * FROM empleado ORDER BY id_empleado DESC limit 1')
 
     return nuevoProducto
   }
@@ -35,9 +35,9 @@ export class EmployeeModel {
 
     const valoresNuevos = { ...input }
 
-    await pool.query('UPDATE empleado SET ? WHERE emp_id = ?', [valoresNuevos, id])
+    await pool.query('UPDATE empleado SET ? WHERE id_empleado = ?', [valoresNuevos, id])
 
-    const [nuevoProducto] = await pool.query('SELECT * FROM empleado WHERE emp_id = ?', [id])
+    const [nuevoProducto] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
 
     return nuevoProducto
   }
@@ -47,7 +47,7 @@ export class EmployeeModel {
     if (!consulta) {
       return false
     }
-    await pool.query('DELETE FROM empleado WHERE emp_id = ?', [id])
+    await pool.query('DELETE FROM empleado WHERE id_empleado = ?', [id])
     return true
   }
 }

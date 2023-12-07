@@ -5,5 +5,5 @@ export const pool = createPool({
   user: 'root',
   password: '123456',
   port: 3306,
-  database: 'companydb'
+  database: 'mitiendaapp'
 })
