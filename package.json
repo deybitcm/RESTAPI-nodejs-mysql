@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:mysql": "node --watch src/server-with-mysql.js",
+    "start:mysql": "nodemon src/server-with-mysql.js",
     "dev": "nodemon src/index.js"
   },
   "keywords": [],

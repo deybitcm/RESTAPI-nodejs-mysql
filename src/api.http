@@ -1,11 +1,11 @@
 ###Obtener todos los empleados
-GET http://localhost:3000/empleados
+GET http://localhost:3000/api/empleados
 
 ###Obtener un empleado especificos
-GET http://localhost:3000/empleados/1
+GET http://localhost:3000/api/empleados/1
 
 ###Registrar un nuevo empleado
-POST http://localhost:3000/empleados
+POST http://localhost:3000/api/empleados
 Content-Type: application/json
 
 {
@@ -15,7 +15,7 @@ Content-Type: application/json
 }
 
 ###Actualizar datos de empleado
-PATCH http://localhost:3000/empleados/3
+PATCH http://localhost:3000/api/empleados/3
 Content-Type: application/json
 
 {
@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ###Eliminar empleado
-DELETE http://localhost:3000/empleados/4
+DELETE http://localhost:3000/api/empleados/4
 
 
 

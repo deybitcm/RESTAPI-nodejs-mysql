@@ -16,8 +16,8 @@ export const createApp = ({ productModel, employeeModel }) => {
   app.disable('x-powered-by')
 
   // rutas
-  app.use('/empleados', createEmployeeRouter({ employeeModel }))
-  app.use('/productos', createProductRouter({ productModel }))
+  app.use('/api/empleados', createEmployeeRouter({ employeeModel }))
+  app.use('/api/productos', createProductRouter({ productModel }))
 
   app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
