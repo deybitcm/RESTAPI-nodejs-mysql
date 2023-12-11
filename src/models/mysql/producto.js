@@ -1,4 +1,4 @@
-import { pool } from './db-conection.js'
+import { pool } from './db-connection.js'
 
 export class ProductModel {
   static async getAll () {
