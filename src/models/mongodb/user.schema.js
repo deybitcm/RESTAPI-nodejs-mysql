@@ -16,13 +16,8 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-    trim: true,
-    maxlength: 50
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
+    trim: true
   }
-})
+}, { timestamps: true })
 
 export default mongoose.model('User', userSchema)
