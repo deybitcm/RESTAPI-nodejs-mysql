@@ -16,15 +16,15 @@ export class EmployeeModel {
 
   static async create ({ input }) {
     // id: prd_id: randomUUID()
-    const newProduct = {
+    const newEmployee = {
       ...input
     }
 
-    await pool.query('INSERT INTO empleado set ?', [newProduct])
+    const [{ insertId }] = await pool.query('INSERT INTO empleado set ?', [newEmployee])
 
-    const [nuevoProducto] = await pool.query('SELECT * FROM empleado ORDER BY id_empleado DESC limit 1')
+    const [nuevoEmpleado] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [insertId])
 
-    return nuevoProducto
+    return nuevoEmpleado
   }
 
   static async update ({ id, input }) {
@@ -37,9 +37,9 @@ export class EmployeeModel {
 
     await pool.query('UPDATE empleado SET ? WHERE id_empleado = ?', [valoresNuevos, id])
 
-    const [nuevoProducto] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
+    const [nuevoEmpleado] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
 
-    return nuevoProducto
+    return nuevoEmpleado
   }
 
   static async delete ({ id }) {
