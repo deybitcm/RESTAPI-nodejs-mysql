@@ -2,6 +2,7 @@ import express from 'express'
 import morgan from 'morgan'
 import { corsMiddleware } from './middlewares/cors.js'
 import cookieParser from 'cookie-parser'
+import 'dotenv/config'
 
 // importando rutas
 import { createEmployeeRouter } from './routes/empleados.js'
