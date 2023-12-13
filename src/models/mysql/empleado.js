@@ -37,9 +37,9 @@ export class EmployeeModel {
 
     await pool.query('UPDATE empleado SET ? WHERE id_empleado = ?', [valoresNuevos, id])
 
-    const [nuevoEmpleado] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
+    const [empleadoEditado] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
 
-    return nuevoEmpleado
+    return empleadoEditado
   }
 
   static async delete ({ id }) {

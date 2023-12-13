@@ -35,9 +35,9 @@ export class EmployeeController {
     }
 
     const { id } = req.params
-    const nuevoEmpleado = await this.employeeModel.update({ id, input: result.data })
-    if (nuevoEmpleado) {
-      return res.status(201).json({ empleado: nuevoEmpleado })
+    const empleadoEditado = await this.employeeModel.update({ id, input: result.data })
+    if (empleadoEditado) {
+      return res.status(201).json({ empleado: empleadoEditado })
     }
     res.status(404).json({ mensaje: 'Empleado no encontrado' })
   }
