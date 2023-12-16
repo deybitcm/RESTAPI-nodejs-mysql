@@ -7,13 +7,13 @@ export class EmployeeController {
 
   obtenerEmpleados = async (req, res) => {
     const result = await this.employeeModel.getAll()
-    res.status(200).json({ empleados: result })
+    res.status(200).json(result)
   }
 
   obtenerEmpleado = async (req, res) => {
     const { id } = req.params
     const result = await this.employeeModel.getById({ id })
-    if (result) return res.status(200).json({ empleado: result })
+    if (result) return res.status(200).json(result)
     res.status(404).json({ mensaje: 'Empleado no encontrado' })
   }
 
@@ -24,8 +24,8 @@ export class EmployeeController {
       return res.status(400).json({ error: JSON.parse(result.error.message) })
     }
 
-    const [nuevoEmpleado] = await this.employeeModel.create({ input: result.data })
-    res.status(201).json({ empleado_creado: nuevoEmpleado })
+    const nuevoEmpleado = await this.employeeModel.create({ input: result.data })
+    res.status(201).json(nuevoEmpleado)
   }
 
   actualizarEmpleado = async (req, res) => {
@@ -37,7 +37,7 @@ export class EmployeeController {
     const { id } = req.params
     const empleadoEditado = await this.employeeModel.update({ id, input: result.data })
     if (empleadoEditado) {
-      return res.status(201).json({ empleado: empleadoEditado })
+      return res.status(201).json(empleadoEditado)
     }
     res.status(404).json({ mensaje: 'Empleado no encontrado' })
   }
