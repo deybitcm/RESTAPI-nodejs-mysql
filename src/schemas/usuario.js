@@ -12,7 +12,7 @@ const esquemaUsuario = z.object({
   id_tipo_documento: z.number({
     invalid_type_error: 'este valor debe ser un numero',
     required_error: 'este valor es requerido'
-  }),
+  }).default(1),
   nombre: z.string({
     invalid_type_error: 'el nombre debe ser una cadena',
     required_error: 'el nombre es requerido'
@@ -20,7 +20,19 @@ const esquemaUsuario = z.object({
   celular: z.string({
     invalid_type_error: 'celular debe ser una cadena',
     required_error: 'celular es requerido'
-  })
+  }),
+  apellido: z.string({
+    invalid_type_error: 'apellido debe ser una cadena',
+    required_error: 'apellido es requerido'
+  }).default(''),
+  documento: z.string({
+    invalid_type_error: 'documento debe ser una cadena',
+    required_error: 'documento es requerido'
+  }).default(''),
+  correo: z.string({
+    invalid_type_error: 'correo debe ser una cadena',
+    required_error: 'correo es requerido'
+  }).default('')
 })
 
 export function validaciónUsuario (input) {

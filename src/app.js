@@ -7,7 +7,7 @@ import 'dotenv/config'
 // importando rutas
 import { createEmployeeRouter } from './routes/empleados.js'
 import { createProductRouter } from './routes/productos.js'
-import { createUserRouter } from './routes/usuario.js'
+import { createUserRouter } from './routes/usuarios.js'
 
 export const createApp = ({ productModel, employeeModel, userModel }) => {
   const app = express()

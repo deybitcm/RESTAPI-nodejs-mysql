@@ -20,9 +20,9 @@ export class UserModel {
       ...input
     }
 
-    const [{ insertId }] = await pool.query('INSERT INTO empleado set ?', [newUser])
+    const [{ insertId }] = await pool.query('INSERT INTO usuario set ?', [newUser])
 
-    const [nuevoUsuario] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [insertId])
+    const [nuevoUsuario] = await pool.query('SELECT * FROM usuario WHERE id_usuario = ?', [insertId])
 
     return nuevoUsuario
   }
