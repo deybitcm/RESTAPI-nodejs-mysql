@@ -20,6 +20,13 @@ export class PersonModel {
       ...input
     }
 
+    const [consulta] = await pool.query('SELECT * FROM persona WHERE celular = ?', [newPerson.celular])
+
+    if (consulta[0] !== undefined) {
+      console.log('Celular ya existe')
+      return false
+    }
+
     const [{ insertId }] = await pool.query('INSERT INTO persona set ?', [newPerson])
 
     const [nuevaPersona] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [insertId])

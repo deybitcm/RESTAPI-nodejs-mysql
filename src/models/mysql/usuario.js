@@ -60,6 +60,13 @@ export class UserModel {
     }
 
     try {
+      const personFound = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [newUser.id_persona])
+
+      if (personFound[0].length === 0) {
+        console.log('Persona no existe')
+        return false
+      }
+
       const userFound = await pool.query('SELECT * FROM usuario WHERE id_persona = ?', [newUser.id_persona])
 
       if (userFound[0].length > 0) {
@@ -81,8 +88,7 @@ export class UserModel {
     const { celular, contrasenia } = input
 
     try {
-      const [row] = await pool.query('SELECT * FROM usuario WHERE correo = ?', [celular])
-      console.log(row)
+      const [row] = await pool.query('SELECT * FROM usuario INNER JOIN persona ON usuario.id_persona = persona.id_persona WHERE celular = ?', [celular])
       if (row[0] == null) {
         return false
       }
@@ -93,6 +99,8 @@ export class UserModel {
       }
 
       const token = await createAccessToken({ id: row[0].id_usuario })
+      await pool.query('UPDATE usuario SET token = ? WHERE id_persona = ?', [token, row[0].id_persona])
+
       return { token }
     } catch (error) {
       console.log(error)
@@ -101,22 +109,25 @@ export class UserModel {
   }
 
   static async logout ({ input }) {
-    const { id } = input
-    const consulta = await UserModel.getById({ id })
-    if (!consulta) {
+    const { celular } = input
+    const [consulta] = await pool.query('SELECT * FROM usuario INNER JOIN persona ON usuario.id_persona = persona.id_persona WHERE celular = ?', [celular])
+    if (consulta[0] === undefined) {
       return false
     }
-    await pool.query('UPDATE usuario SET token = NULL WHERE id_usuario = ?', [id])
+    const [isUpdated] = await pool.query('UPDATE usuario SET token = NULL WHERE id_persona = ?', [consulta[0].id_persona])
+    if (isUpdated.affectedRows === 0) {
+      return false
+    }
+
     return true
   }
 
   static async profile ({ input }) {
-    const { id } = input
-    const consulta = await UserModel.getById({ id })
+    const { celular } = input
+    const [consulta] = await pool.query('SELECT * FROM usuario INNER JOIN persona ON usuario.id_persona = persona.id_persona WHERE celular = ?', [celular])
     if (!consulta) {
       return false
     }
-    const [row] = await pool.query('SELECT * FROM usuario WHERE id_usuario = ?', [id])
-    return row[0]
+    return consulta
   }
 }

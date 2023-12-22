@@ -25,6 +25,10 @@ export class PersonController {
     }
 
     const nuevoPersona = await this.personModel.create({ input: result.data })
+    if (!nuevoPersona) {
+      return res.status(400).json({ mensaje: 'Celular ya existe' })
+    }
+
     res.status(201).json(nuevoPersona)
   }
 

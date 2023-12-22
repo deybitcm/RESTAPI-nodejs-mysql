@@ -22,7 +22,7 @@ export class AuthController {
   }
 
   logout = async (req, res) => {
-    const result = await this.userModel.logout()
+    const result = await this.userModel.logout({ input: req.body })
     if (result) {
       res.clearCookie('token')
       return res.status(200).json({ mensaje: 'Cierre de sesión exitoso' })
@@ -31,7 +31,7 @@ export class AuthController {
   }
 
   profile = async (req, res) => {
-    const result = await this.userModel.profile({ input: req.user })
+    const result = await this.userModel.profile({ input: req.body })
     if (result) {
       return res.status(200).json({ mensaje: 'Perfil encontrado', usuario: result })
     }
