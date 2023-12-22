@@ -8,6 +8,7 @@ import 'dotenv/config'
 import { createEmployeeRouter } from './routes/empleados.js'
 import { createProductRouter } from './routes/productos.js'
 import { createUserRouter } from './routes/usuarios.js'
+import { createAuthRouter } from './routes/auth.js'
 
 export const createApp = ({ productModel, employeeModel, userModel }) => {
   const app = express()
@@ -25,6 +26,7 @@ export const createApp = ({ productModel, employeeModel, userModel }) => {
   app.use('/api/empleados', createEmployeeRouter({ employeeModel }))
   app.use('/api/productos', createProductRouter({ productModel }))
   app.use('/api/usuarios', createUserRouter({ userModel }))
+  app.use('/api/auth', createAuthRouter({ userModel }))
 
   app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
