@@ -1,5 +1,6 @@
 import { pool } from './db-connection.js'
 import bcrypt from 'bcrypt'
+import { createAccessToken } from '../../../libs/jwt.js'
 
 export class UserModel {
   static async getAll () {
@@ -58,25 +59,49 @@ export class UserModel {
       contrasenia: bcrypt.hashSync(input.contrasenia, 10)
     }
 
-    const [{ insertId }] = await pool.query('INSERT INTO usuario set ?', [newUser])
+    try {
+      const userFound = await pool.query('SELECT * FROM usuario WHERE id_persona = ?', [newUser.id_persona])
 
-    const [nuevoUsuario] = await pool.query('SELECT * FROM usuario WHERE id_usuario = ?', [insertId])
+      if (userFound[0].length > 0) {
+        console.log('Usuario existente')
+        return false
+      }
 
-    return nuevoUsuario
+      const [{ insertId }] = await pool.query('INSERT INTO usuario set ?', [newUser])
+      const token = await createAccessToken({ id: insertId })
+
+      return { token }
+    } catch (error) {
+      console.log(error)
+      return false
+    }
   }
 
   static async login ({ input }) {
     const { celular, contrasenia } = input
-    const [row] = await pool.query('SELECT * FROM usuario WHERE correo = ?', [celular])
-    if (row[0] != null) {
-      if (await bcrypt.compare(contrasenia, row[0].contrasenia)) {
-        return row[0]
+
+    try {
+      const [row] = await pool.query('SELECT * FROM usuario WHERE correo = ?', [celular])
+      console.log(row)
+      if (row[0] == null) {
+        return false
       }
+
+      const isMatch = await bcrypt.compare(contrasenia, row[0].contrasenia)
+      if (!isMatch) {
+        return false
+      }
+
+      const token = await createAccessToken({ id: row[0].id_usuario })
+      return { token }
+    } catch (error) {
+      console.log(error)
+      return false
     }
-    return false
   }
 
-  static async logout ({ id }) {
+  static async logout ({ input }) {
+    const { id } = input
     const consulta = await UserModel.getById({ id })
     if (!consulta) {
       return false
@@ -85,7 +110,8 @@ export class UserModel {
     return true
   }
 
-  static async profile ({ id }) {
+  static async profile ({ input }) {
+    const { id } = input
     const consulta = await UserModel.getById({ id })
     if (!consulta) {
       return false

@@ -25,6 +25,9 @@ export class UserController {
     }
 
     const nuevoUsuario = await this.userModel.create({ input: result.data })
+    if (!nuevoUsuario) {
+      return res.status(500).json({ mensaje: 'Error al crear usuario' })
+    }
     res.status(201).json(nuevoUsuario)
   }
 
