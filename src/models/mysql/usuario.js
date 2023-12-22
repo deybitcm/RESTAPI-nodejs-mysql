@@ -1,4 +1,5 @@
 import { pool } from './db-connection.js'
+import bcrypt from 'bcrypt'
 
 export class UserModel {
   static async getAll () {
@@ -49,5 +50,47 @@ export class UserModel {
     }
     await pool.query('DELETE FROM usuario WHERE id_usuario = ?', [id])
     return true
+  }
+
+  static async register ({ input }) {
+    const newUser = {
+      ...input,
+      contrasenia: bcrypt.hashSync(input.contrasenia, 10)
+    }
+
+    const [{ insertId }] = await pool.query('INSERT INTO usuario set ?', [newUser])
+
+    const [nuevoUsuario] = await pool.query('SELECT * FROM usuario WHERE id_usuario = ?', [insertId])
+
+    return nuevoUsuario
+  }
+
+  static async login ({ input }) {
+    const { celular, contrasenia } = input
+    const [row] = await pool.query('SELECT * FROM usuario WHERE correo = ?', [celular])
+    if (row[0] != null) {
+      if (await bcrypt.compare(contrasenia, row[0].contrasenia)) {
+        return row[0]
+      }
+    }
+    return false
+  }
+
+  static async logout ({ id }) {
+    const consulta = await UserModel.getById({ id })
+    if (!consulta) {
+      return false
+    }
+    await pool.query('UPDATE usuario SET token = NULL WHERE id_usuario = ?', [id])
+    return true
+  }
+
+  static async profile ({ id }) {
+    const consulta = await UserModel.getById({ id })
+    if (!consulta) {
+      return false
+    }
+    const [row] = await pool.query('SELECT * FROM usuario WHERE id_usuario = ?', [id])
+    return row[0]
   }
 }
