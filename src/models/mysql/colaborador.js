@@ -1,6 +1,6 @@
 import { pool } from './db-connection.js'
 
-export class EmployeeModel {
+export class CollaboratorModel {
   static async getAll () {
     const [rows] = await pool.query('SELECT * FROM empleado')
     return rows
@@ -28,7 +28,7 @@ export class EmployeeModel {
   }
 
   static async update ({ id, input }) {
-    const consulta = await EmployeeModel.getById({ id })
+    const consulta = await CollaboratorModel.getById({ id })
     if (!consulta) {
       return false
     }
@@ -43,7 +43,7 @@ export class EmployeeModel {
   }
 
   static async delete ({ id }) {
-    const consulta = await EmployeeModel.getById({ id })
+    const consulta = await CollaboratorModel.getById({ id })
     if (!consulta) {
       return false
     }
