@@ -9,9 +9,8 @@ import { createCollaboratorRouter } from './routes/colaboradores.js'
 import { createProductRouter } from './routes/productos.js'
 import { createUserRouter } from './routes/usuarios.js'
 import { createAuthRouter } from './routes/auth.js'
-import { createPersonRouter } from './routes/persona.js'
 
-export const createApp = ({ productModel, collaboratorModel, userModel, personModel }) => {
+export const createApp = ({ productModel, collaboratorModel, userModel }) => {
   const app = express()
 
   app.set('port', process.env.PORT || 3000)
@@ -28,7 +27,6 @@ export const createApp = ({ productModel, collaboratorModel, userModel, personMo
   app.use('/api/productos', createProductRouter({ productModel }))
   app.use('/api/usuarios', createUserRouter({ userModel }))
   app.use('/api/auth', createAuthRouter({ userModel }))
-  app.use('/api/personas', createPersonRouter({ personModel }))
 
   app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)
