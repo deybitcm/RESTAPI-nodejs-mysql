@@ -3,6 +3,7 @@ import cors from 'cors'
 const ACCEPTED_ORIGNIS = [
   'http://localhost:8080',
   'http://localhost:3000',
+  'http://localhost:19006',
   'http://192.168.1.39:8081'
 ]
 

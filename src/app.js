@@ -4,14 +4,32 @@ import { corsMiddleware } from './middlewares/cors.js'
 import cookieParser from 'cookie-parser'
 import 'dotenv/config'
 
-// importando rutas
-import { createCollaboratorRouter } from './routes/colaboradores.js'
+// ** importando rutas
+// Productos
 import { createProductRouter } from './routes/productos.js'
+// Movimientos
+import { createMovementRouter } from './routes/movimientos.js'
+// Personas
+import { createPersonRouter } from './routes/personas.js'
+// Usuarios
 import { createUserRouter } from './routes/usuarios.js'
-import { createAuthRouter } from './routes/auth.js'
+// Tiendas
 import { createStoreRouter } from './routes/tiendas.js'
 
-export const createApp = ({ productModel, collaboratorModel, userModel, storeModel }) => {
+export const createApp = ({
+  saleModel,
+  purchaseModel,
+  movementDetailModel,
+  paymentModel,
+  productModel,
+  categoryModel,
+  clientModel,
+  supplierModel,
+  collaboratorModel,
+  userModel,
+  storeModel,
+  storePersonModel
+}) => {
   const app = express()
 
   app.set('port', process.env.PORT || 3000)
@@ -24,11 +42,11 @@ export const createApp = ({ productModel, collaboratorModel, userModel, storeMod
   app.use(cookieParser())
 
   // rutas
-  app.use('/api/colaboradores', createCollaboratorRouter({ collaboratorModel }))
-  app.use('/api/productos', createProductRouter({ productModel }))
+  app.use('/api/movimientos', createMovementRouter({ saleModel, purchaseModel, movementDetailModel, paymentModel }))
+  app.use('/api/productos', createProductRouter({ productModel, categoryModel }))
+  app.use('/api/personas', createPersonRouter({ clientModel, supplierModel, collaboratorModel }))
   app.use('/api/usuarios', createUserRouter({ userModel }))
-  app.use('/api/auth', createAuthRouter({ userModel }))
-  app.use('/api/tiendas', createStoreRouter({ storeModel }))
+  app.use('/api/tiendas', createStoreRouter({ storeModel, storePersonModel }))
 
   app.listen(app.get('port'), () => {
     console.log(`Server on port ${app.get('port')}`)

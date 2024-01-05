@@ -2,12 +2,12 @@ import { pool } from './db-connection.js'
 
 export class CollaboratorModel {
   static async getAll () {
-    const [rows] = await pool.query('SELECT * FROM empleado')
+    const [rows] = await pool.query('SELECT * FROM persona')
     return rows
   }
 
   static async getById ({ id }) {
-    const [row] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
+    const [row] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [id])
     if (row[0] != null) {
       return row[0]
     }
@@ -20,11 +20,11 @@ export class CollaboratorModel {
       ...input
     }
 
-    const [{ insertId }] = await pool.query('INSERT INTO empleado set ?', [newEmployee])
+    const [{ insertId }] = await pool.query('INSERT INTO persona set ?', [newEmployee])
 
-    const [nuevoEmpleado] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [insertId])
+    const [nuevoRegistro] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [insertId])
 
-    return nuevoEmpleado
+    return nuevoRegistro
   }
 
   static async update ({ id, input }) {
@@ -35,11 +35,11 @@ export class CollaboratorModel {
 
     const valoresNuevos = { ...input }
 
-    await pool.query('UPDATE empleado SET ? WHERE id_empleado = ?', [valoresNuevos, id])
+    await pool.query('UPDATE persona SET ? WHERE id_persona = ?', [valoresNuevos, id])
 
-    const [empleadoEditado] = await pool.query('SELECT * FROM empleado WHERE id_empleado = ?', [id])
+    const [nuevoRegistro] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [id])
 
-    return empleadoEditado
+    return nuevoRegistro
   }
 
   static async delete ({ id }) {
@@ -47,7 +47,7 @@ export class CollaboratorModel {
     if (!consulta) {
       return false
     }
-    await pool.query('DELETE FROM empleado WHERE id_empleado = ?', [id])
+    await pool.query('DELETE FROM persona WHERE id_persona = ?', [id])
     return true
   }
 }
