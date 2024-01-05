@@ -10,6 +10,12 @@ export class PaymentController {
     res.status(200).json(result)
   }
 
+  obtenerAbonosMovimiento = async (req, res) => {
+    const { id } = req.params
+    const result = await this.paymentModel.getByMovementId({ id })
+    res.status(200).json(result)
+  }
+
   obtenerAbono = async (req, res) => {
     const { id } = req.params
     const result = await this.paymentModel.getById({ id })

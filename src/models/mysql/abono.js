@@ -6,6 +6,11 @@ export class PaymentModel {
     return rows
   }
 
+  static async getByMovementId ({ id }) {
+    const [rows] = await pool.query('CALL sp_obtener_abonos_de_movimiento(?)', [id])
+    return rows
+  }
+
   static async getById ({ id }) {
     const [row] = await pool.query('SELECT * FROM abono WHERE id_abono = ?', [id])
     if (row[0] != null) {
