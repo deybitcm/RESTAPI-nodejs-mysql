@@ -11,7 +11,10 @@ const esquemaAbono = z.object({
   monto: z.number({
     invalid_type_error: 'este campo debe ser numero',
     required_error: 'este campo es requerido'
-  })
+  }),
+  fecha_abono: z.date({
+    invalid_type_error: 'este campo debe ser fecha'
+  }).default(() => new Date())
 })
 
 export function validaciónAbono (input) {

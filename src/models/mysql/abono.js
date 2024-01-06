@@ -8,7 +8,7 @@ export class PaymentModel {
 
   static async getByMovementId ({ id }) {
     const [rows] = await pool.query('CALL sp_obtener_abonos_de_movimiento(?)', [id])
-    return rows
+    return rows[0]
   }
 
   static async getById ({ id }) {
