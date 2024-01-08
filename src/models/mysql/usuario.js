@@ -2,7 +2,42 @@ import { pool } from './db-connection.js'
 import bcrypt from 'bcrypt'
 import { createAccessToken } from '../../../libs/jwt.js'
 
+import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SERVICE_SID } from '../../../libs/twilio.js'
+import twilio from 'twilio'
+
+const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
 export class UserModel {
+  static async verifyInit ({ input }) {
+    try {
+      const { celular } = input
+      const { status } = await twilioClient.verify.v2.services(TWILIO_SERVICE_SID).verifications.create({
+        to: celular,
+        channel: 'whatsapp'
+      })
+
+      return { status }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  static async verifyCode ({ input }) {
+    try {
+      const { celular, codigo } = input
+      const { status } = await twilioClient.verify.v2.services(TWILIO_SERVICE_SID).verificationChecks.create({
+        to: celular,
+        code: codigo
+      })
+
+      if (status === 'approved') { return true }
+
+      return false
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   static async getAll () {
     const [rows] = await pool.query('SELECT * FROM usuario')
     return rows

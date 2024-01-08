@@ -7,7 +7,7 @@ export class ProductController {
 
   obtenerProductos = async (req, res) => {
     const result = await this.productModel.getAll()
-    res.status(200).json({ productos: result })
+    res.status(200).json(result)
   }
 
   obtenerProducto = async (req, res) => {
