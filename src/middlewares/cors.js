@@ -4,7 +4,8 @@ const ACCEPTED_ORIGNIS = [
   'http://localhost:8080',
   'http://localhost:3000',
   'http://localhost:19006',
-  'http://192.168.1.46:8081'
+  'http://192.168.1.46:8081',
+  'https://deybitcm.github.io/RESTAPI-nodejs-mysql'
 ]
 
 export const corsMiddleware = ({ acceptedOrigins = ACCEPTED_ORIGNIS } = {}) => cors({
