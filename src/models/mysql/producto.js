@@ -2,7 +2,7 @@ import { pool } from './db-connection.js'
 
 export class ProductModel {
   static async getAll () {
-    const [rows] = await pool.query('SELECT * FROM Producto')
+    const [rows] = await pool.query('SELECT * FROM producto')
     return rows
   }
 
