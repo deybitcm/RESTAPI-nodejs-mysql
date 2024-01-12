@@ -18,7 +18,7 @@ export class UserModel {
 
       return { status }
     } catch (error) {
-      console.log(error)
+      return error
     }
   }
 
@@ -95,6 +95,7 @@ export class UserModel {
     }
 
     try {
+      // Comprobar si la persona existe
       const personFound = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [newUser.id_persona])
 
       if (personFound[0].length === 0) {
@@ -104,14 +105,17 @@ export class UserModel {
 
       const userFound = await pool.query('SELECT * FROM usuario WHERE id_persona = ?', [newUser.id_persona])
 
+      // Comprobar si el usuario existe
       if (userFound[0].length > 0) {
         console.log('Usuario existente')
         return false
       }
 
+      // Crear usuario
       const [{ insertId }] = await pool.query('INSERT INTO usuario set ?', [newUser])
       const token = await createAccessToken({ id: insertId })
 
+      console.log({ token })
       return { token }
     } catch (error) {
       console.log(error)

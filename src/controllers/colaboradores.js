@@ -25,6 +25,9 @@ export class CollaboratorController {
     }
 
     const nuevoColaborador = await this.collaboratorModel.create({ input: result.data })
+    if (!nuevoColaborador) {
+      return res.status(500).json({ mensaje: 'Error al crear Colaborador' })
+    }
     res.status(201).json(nuevoColaborador)
   }
 

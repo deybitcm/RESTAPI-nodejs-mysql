@@ -20,6 +20,13 @@ export class CollaboratorModel {
       ...input
     }
 
+    // Comprobar si el ceular ya esta registrado
+    const [row] = await pool.query('SELECT * FROM persona WHERE celular = ?', [newEmployee.celular])
+
+    if (row[0] != null) {
+      return false
+    }
+
     const [{ insertId }] = await pool.query('INSERT INTO persona set ?', [newEmployee])
 
     const [nuevoRegistro] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [insertId])
