@@ -1,8 +1,9 @@
 import express from 'express'
 import morgan from 'morgan'
-import { corsMiddleware } from './middlewares/cors.js'
+// import { corsMiddleware } from './middlewares/cors.js'
 import cookieParser from 'cookie-parser'
 import 'dotenv/config'
+import cors from 'cors'
 
 // ** importando rutas
 // Productos
@@ -37,7 +38,8 @@ export const createApp = ({
   // middlewares
   app.use(morgan('dev'))
   app.use(express.json())
-  app.use(corsMiddleware())
+  // app.use(corsMiddleware())
+  app.use(cors({ origin: true, credentials: true }))
   app.disable('x-powered-by')
   app.use(cookieParser())
 
