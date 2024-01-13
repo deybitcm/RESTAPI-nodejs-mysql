@@ -2,11 +2,9 @@
   "name": "restapi-nodejs-mysql",
   "version": "1.0.0",
   "description": "",
-  "main": "server-with-mysql.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start:mysql": "nodemon src/server-with-mysql.js",
-    "start:mongo": "nodemon src/server-with-mongodb.js",
     "start": "nodemon src/index.js",
     "dev": "nodemon src/index.js"
   },
