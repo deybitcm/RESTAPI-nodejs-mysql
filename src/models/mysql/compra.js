@@ -2,8 +2,8 @@ import { pool } from './db-connection.js'
 
 export class PurchaseModel {
   static async getAll () {
-    const [rows] = await pool.query('SELECT M.id_movimiento, M.fecha_movimiento, M.monto_total, C.nombre, C.id_cat_movimiento FROM movimiento M JOIN categoria_movimiento C ON M.id_cat_movimiento = C.id_cat_movimiento WHERE C.id_cat_movimiento <> 1 AND C.id_cat_movimiento <> 2 ORDER BY M.fecha_movimiento DESC')
-    return rows
+    const [rows] = await pool.query('CALL sp_obtener_compras()')
+    return rows[0]
   }
 
   static async getById ({ id }) {
