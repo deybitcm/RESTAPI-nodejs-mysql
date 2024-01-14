@@ -1,6 +1,10 @@
 import { z } from 'zod'
 
 const esquemaProducto = z.object({
+  id_tienda: z.number({
+    invalid_type_error: 'ete campo debe ser un numero',
+    required_error: 'ete campo es requerido'
+  }).nonnegative(),
   nombre: z.string({
     invalid_type_error: 'el nombre debe ser una cadena',
     required_error: 'el nombre es requerido'

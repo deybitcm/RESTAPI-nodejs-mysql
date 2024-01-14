@@ -7,46 +7,50 @@ export class ProductController {
 
   obtenerProductos = async (req, res) => {
     const result = await this.productModel.getAll()
-    res.status(200).json(result)
+    const { status, ...response } = result
+    return res.status(status).json(response)
+  }
+
+  obtenerProductosTienda = async (req, res) => {
+    const { idtienda, isactive } = req.params
+    const result = await this.productModel.getAllByStore({ id: idtienda, option: isactive })
+    const { status, ...response } = result
+    return res.status(status).json(response)
   }
 
   obtenerProducto = async (req, res) => {
     const { id } = req.params
     const result = await this.productModel.getById({ id })
-    if (result) return res.status(200).json({ producto: result })
-    res.status(404).json({ mensaje: 'Producto no encontrado' })
+    const { status, ...response } = result
+    return res.status(status).json(response)
   }
 
   registrarProducto = async (req, res) => {
     const result = validaciónProducto(req.body)
-    if (result.error) {
-      return res.status(400).json({ error: JSON.parse(result.error.message) })
+    if (!result.success) {
+      return res.status(400).json({ error: JSON.parse(result.error.response) })
     }
 
-    const [nuevoProducto] = await this.productModel.create({ input: result.data })
-    res.status(201).json({ producto_creado: nuevoProducto })
+    const consulta = await this.productModel.create({ input: result.data })
+    const { status, ...response } = consulta
+    return res.status(status).json(response)
   }
 
   actualizarProducto = async (req, res) => {
     const result = validaciónParcialProducto(req.body)
     if (!result.success) {
-      return res.status(400).json({ error: JSON.parse(result.error.message) })
+      return res.status(400).json({ error: JSON.parse(result.error.response) })
     }
 
     const { id } = req.params
-    const nuevoProducto = await this.productModel.update({ id, input: result.data })
-    if (nuevoProducto) {
-      return res.status(201).json({ producto: nuevoProducto })
-    }
-    res.status(404).json({ mensaje: 'Producto no encontrado' })
+    const consulta = await this.productModel.update({ id, input: result.data })
+    const { status, ...response } = consulta
+    return res.status(status).json(response)
   }
 
   eliminarProducto = async (req, res) => {
     const { id } = req.params
-    const mensaje = await this.productModel.delete({ id })
-    if (mensaje) {
-      return res.status(201).json({ mensaje: 'Producto eliminado' })
-    }
-    res.status(404).json({ mensaje: 'Producto no encontrado' })
+    const { status, ...response } = await this.productModel.delete({ id })
+    return res.status(status).json(response)
   }
 }

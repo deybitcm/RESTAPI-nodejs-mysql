@@ -1,9 +1,10 @@
 import { createPool } from 'mysql2/promise'
+import { MYSQL_CREDENTIALS } from '../../config.js'
 
 export const pool = createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  port: process.env.MYSQL_PORT,
-  database: process.env.MYSQL_DATABASE
+  host: MYSQL_CREDENTIALS.host,
+  port: MYSQL_CREDENTIALS.port,
+  user: MYSQL_CREDENTIALS.user,
+  password: MYSQL_CREDENTIALS.password,
+  database: MYSQL_CREDENTIALS.database
 })
