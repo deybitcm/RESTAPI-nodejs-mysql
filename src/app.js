@@ -40,11 +40,11 @@ app.disable('x-powered-by')
 app.use(cookieParser())
 
 // rutas
-app.use('/api/movimientos', createMovementRouter({ SaleModel, PurchaseModel, MovementDetailModel, PaymentModel }))
-app.use('/api/productos', createProductRouter({ ProductModel, CategoryModel }))
-app.use('/api/personas', createPersonRouter({ ClientModel, SupplierModel, CollaboratorModel }))
-app.use('/api/usuarios', createUserRouter({ UserModel }))
-app.use('/api/tiendas', createStoreRouter({ StoreModel, StorePersonModel }))
+app.use('/api/movimientos', createMovementRouter({ saleModel: SaleModel, purchaseModel: PurchaseModel, movementDetailModel: MovementDetailModel, paymentModel: PaymentModel }))
+app.use('/api/productos', createProductRouter({ productModel: ProductModel, categoryModel: CategoryModel }))
+app.use('/api/personas', createPersonRouter({ clientModel: ClientModel, supplierModel: SupplierModel, collaboratorModel: CollaboratorModel }))
+app.use('/api/usuarios', createUserRouter({ userModel: UserModel }))
+app.use('/api/tiendas', createStoreRouter({ storeModel: StoreModel, storePersonModel: StorePersonModel }))
 
 app.use('*', (req, res) => {
   res.status(404).json({ mensaje: 'endpoint not found' })
