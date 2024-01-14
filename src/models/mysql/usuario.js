@@ -2,16 +2,16 @@ import { pool } from './db-connection.js'
 import bcrypt from 'bcrypt'
 import { createAccessToken } from '../../../libs/jwt.js'
 
-import { TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_SERVICE_SID } from '../../../libs/twilio.js'
+import { TWILIO } from '../../config.js'
 import twilio from 'twilio'
 
-const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+const twilioClient = twilio(TWILIO.accountsId, TWILIO.authToken)
 
 export class UserModel {
   static async verifyInit ({ input }) {
     try {
       const { celular } = input
-      const { status } = await twilioClient.verify.v2.services(TWILIO_SERVICE_SID).verifications.create({
+      const { status } = await twilioClient.verify.v2.services(TWILIO.serviceId).verifications.create({
         to: celular,
         channel: 'whatsapp'
       })
@@ -25,7 +25,7 @@ export class UserModel {
   static async verifyCode ({ input }) {
     try {
       const { celular, codigo } = input
-      const { status } = await twilioClient.verify.v2.services(TWILIO_SERVICE_SID).verificationChecks.create({
+      const { status } = await twilioClient.verify.v2.services(TWILIO.serviceId).verificationChecks.create({
         to: celular,
         code: codigo
       })

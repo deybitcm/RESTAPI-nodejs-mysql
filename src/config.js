@@ -10,3 +10,8 @@ export const MYSQL_CREDENTIALS = {
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE
 }
+export const TWILIO = {
+  accountsId: process.env.TWILIO_ACCOUNT_SID,
+  authToken: process.env.TWILIO_AUTH_TOKEN,
+  serviceId: process.env.TWILIO_SERVICE_SID
+}
