@@ -27,7 +27,7 @@ export class UserModel {
       const { celular, codigo } = input
       const { status } = await twilioClient.verify.v2.services(TWILIO.serviceId).verificationChecks.create({
         to: `+51${celular}`,
-        code: codigo
+        code: Number(codigo)
       })
 
       if (status === 'approved') { return true }

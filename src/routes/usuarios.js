@@ -22,7 +22,6 @@ export const createUserRouter = ({ userModel }) => {
   userRouter.post('/auth/register', authController.register)
   userRouter.post('/auth/logout', authController.logout)
   userRouter.get('/auth/profile', authRequired, authController.profile)
-
   userRouter.post('/auth/verifyinit', authController.verifyInit)
   userRouter.post('/auth/verifycode', authController.verifyCode)
 
