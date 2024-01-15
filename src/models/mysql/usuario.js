@@ -8,11 +8,11 @@ import twilio from 'twilio'
 const twilioClient = twilio(TWILIO.accountsId, TWILIO.authToken)
 
 export class UserModel {
-  static async verifyInit ({ input }) {
+  static async verifyinit ({ input }) {
     try {
       const { celular } = input
       const { status } = await twilioClient.verify.v2.services(TWILIO.serviceId).verifications.create({
-        to: celular,
+        to: `+51${celular}`,
         channel: 'whatsapp'
       })
 
@@ -22,11 +22,11 @@ export class UserModel {
     }
   }
 
-  static async verifyCode ({ input }) {
+  static async verifycode ({ input }) {
     try {
       const { celular, codigo } = input
       const { status } = await twilioClient.verify.v2.services(TWILIO.serviceId).verificationChecks.create({
-        to: celular,
+        to: `+51${celular}`,
         code: codigo
       })
 

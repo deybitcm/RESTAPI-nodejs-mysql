@@ -4,7 +4,7 @@ export class AuthController {
   }
 
   verifyInit = async (req, res) => {
-    const result = await this.userModel.verifyInit({ input: req.params })
+    const result = await this.userModel.verifyinit({ input: req.body })
     if (result) {
       return res.status(200).json(result)
     }
@@ -12,11 +12,11 @@ export class AuthController {
   }
 
   verifyCode = async (req, res) => {
-    const result = await this.userModel.verifyCode({ input: req.params })
+    const result = await this.userModel.verifycode({ input: req.body })
     if (result) {
-      return true
+      return result
     }
-    return false
+    return result
   }
 
   register = async (req, res) => {

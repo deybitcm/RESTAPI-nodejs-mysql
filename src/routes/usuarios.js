@@ -23,8 +23,8 @@ export const createUserRouter = ({ userModel }) => {
   userRouter.post('/auth/logout', authController.logout)
   userRouter.get('/auth/profile', authRequired, authController.profile)
 
-  userRouter.post('/auth/verifyinit/:celular', authController.verifyInit)
-  userRouter.post('/auth/verifycode/:celular/:codigo', authController.verifyCode)
+  userRouter.post('/auth/verifyinit', authController.verifyInit)
+  userRouter.post('/auth/verifycode', authController.verifyCode)
 
   return userRouter
 }
