@@ -14,9 +14,9 @@ export class AuthController {
   verifyCode = async (req, res) => {
     const result = await this.userModel.verifyCode({ input: req.params })
     if (result) {
-      return res.status(200).json(result)
+      return true
     }
-    res.status(401).json({ mensaje: 'Código de verificación incorrecto' })
+    return false
   }
 
   register = async (req, res) => {
