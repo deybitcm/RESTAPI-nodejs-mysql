@@ -2,12 +2,12 @@ import { pool } from './db-connection.js'
 
 export class SupplierModel {
   static async getAll () {
-    const [rows] = await pool.query('SELECT * FROM proveedor')
+    const [rows] = await pool.query('SELECT * FROM persona')
     return rows
   }
 
   static async getById ({ id }) {
-    const [row] = await pool.query('SELECT * FROM proveedor WHERE id_proveedor = ?', [id])
+    const [row] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [id])
     if (row[0] != null) {
       return row[0]
     }
@@ -20,9 +20,9 @@ export class SupplierModel {
       ...input
     }
 
-    const [{ insertId }] = await pool.query('INSERT INTO proveedor set ?', [newEmployee])
+    const [{ insertId }] = await pool.query('INSERT INTO persona set ?', [newEmployee])
 
-    const [nuevoRegistro] = await pool.query('SELECT * FROM proveedor WHERE id_proveedor = ?', [insertId])
+    const [nuevoRegistro] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [insertId])
 
     return nuevoRegistro
   }
@@ -35,9 +35,9 @@ export class SupplierModel {
 
     const valoresNuevos = { ...input }
 
-    await pool.query('UPDATE proveedor SET ? WHERE id_proveedor = ?', [valoresNuevos, id])
+    await pool.query('UPDATE persona SET ? WHERE id_persona = ?', [valoresNuevos, id])
 
-    const [nuevoRegistro] = await pool.query('SELECT * FROM proveedor WHERE id_proveedor = ?', [id])
+    const [nuevoRegistro] = await pool.query('SELECT * FROM persona WHERE id_persona = ?', [id])
 
     return nuevoRegistro
   }
@@ -47,7 +47,7 @@ export class SupplierModel {
     if (!consulta) {
       return false
     }
-    await pool.query('DELETE FROM proveedor WHERE id_proveedor = ?', [id])
+    await pool.query('DELETE FROM persona WHERE id_persona = ?', [id])
     return true
   }
 }
