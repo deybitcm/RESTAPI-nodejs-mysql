@@ -7,20 +7,30 @@ export class PaymentController {
 
   obtenerAbonos = async (req, res) => {
     const result = await this.paymentModel.getAll()
-    res.status(200).json(result)
+    const { status, ...response } = result
+    res.status(status).json(response)
   }
 
   obtenerAbonosMovimiento = async (req, res) => {
     const { id } = req.params
-    const result = await this.paymentModel.getByMovementId({ id })
-    res.status(200).json(result)
+    const { option } = req?.body
+    const result = await this.paymentModel.getByMovementId({ id, option })
+    const { status, ...response } = result
+    res.status(status).json(response)
+  }
+
+  obtenerAbonosTipoMovimiento = async (req, res) => {
+    const { option } = req?.body
+    const result = await this.paymentModel.getByTypeOfMovement({ option })
+    const { status, ...response } = result
+    res.status(status).json(response)
   }
 
   obtenerAbono = async (req, res) => {
     const { id } = req.params
     const result = await this.paymentModel.getById({ id })
-    if (result) return res.status(200).json(result)
-    res.status(404).json({ mensaje: 'item no encontrado' })
+    const { status, ...response } = result
+    res.status(status).json(response)
   }
 
   registrarAbono = async (req, res) => {
@@ -31,10 +41,8 @@ export class PaymentController {
     }
 
     const nuevoRegistro = await this.paymentModel.create({ input: result.data })
-    if (!nuevoRegistro) {
-      return res.status(500).json({ mensaje: 'Error al crear item' })
-    }
-    res.status(201).json(nuevoRegistro)
+    const { status, ...response } = nuevoRegistro
+    res.status(status).json(response)
   }
 
   actualizarAbono = async (req, res) => {
@@ -45,18 +53,14 @@ export class PaymentController {
 
     const { id } = req.params
     const nuevoRegistro = await this.paymentModel.update({ id, input: result.data })
-    if (nuevoRegistro) {
-      return res.status(201).json(nuevoRegistro)
-    }
-    res.status(404).json({ mensaje: 'item no encontrado' })
+    const { status, ...response } = nuevoRegistro
+    res.status(status).json(response)
   }
 
   eliminarAbono = async (req, res) => {
     const { id } = req.params
-    const mensaje = await this.paymentModel.delete({ id })
-    if (mensaje) {
-      return res.status(201).json({ mensaje: 'item eliminado' })
-    }
-    res.status(404).json({ mensaje: 'item no encontrado' })
+    const result = await this.paymentModel.delete({ id })
+    const { status, ...response } = result
+    res.status(status).json(response)
   }
 }

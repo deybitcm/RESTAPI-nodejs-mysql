@@ -41,6 +41,7 @@ export const createMovementRouter = ({ saleModel, purchaseModel, movementDetailM
   movementRouter.post('/abonos', paymentController.registrarAbono)
 
   movementRouter.get('/abonos/movimiento/:id', paymentController.obtenerAbonosMovimiento)
+  movementRouter.get('/abonos/tipo-movimiento', paymentController.obtenerAbonosTipoMovimiento)
   movementRouter.get('/abonos/:id', paymentController.obtenerAbono)
   movementRouter.patch('/abonos/:id', paymentController.actualizarAbono)
   movementRouter.delete('/abonos/:id', paymentController.eliminarAbono)
