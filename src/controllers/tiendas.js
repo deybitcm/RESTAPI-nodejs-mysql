@@ -17,6 +17,11 @@ export class StoreController {
     res.status(404).json({ mensaje: 'Tienda no encontrado' })
   }
 
+  obtenerTiposDeTienda = async (req, res) => {
+    const result = await this.storeModel.getTypesOfStore()
+    res.status(result.status).json(result)
+  }
+
   registrarTienda = async (req, res) => {
     const result = validaciónTienda(req.body)
 

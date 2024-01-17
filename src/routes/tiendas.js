@@ -12,11 +12,12 @@ export const createStoreRouter = ({ storeModel, storePersonModel }) => {
   storeRouter.get('/', storeController.obtenerTiendas)
   storeRouter.post('/', storeController.registrarTienda)
 
+  storeRouter.get('/tipos', storeController.obtenerTiposDeTienda)
   storeRouter.get('/:id', storeController.obtenerTienda)
   storeRouter.patch('/:id', storeController.actualizarTienda)
   storeRouter.delete('/:id', storeController.eliminarTienda)
 
-  // Tiendas - Personas
+  // ! Tiendas - Personas
   storeRouter.get('/personas', storePersonController.obtenerRegistros)
   storeRouter.post('/personas', storePersonController.registrarRegistro)
 

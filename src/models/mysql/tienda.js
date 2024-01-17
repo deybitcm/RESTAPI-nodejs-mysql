@@ -14,6 +14,15 @@ export class StoreModel {
     return false
   }
 
+  static async getTypesOfStore () {
+    try {
+      const [rows] = await pool.query('SELECT id_tipo_negocio, nombre FROM tipo_negocio')
+      return { mensaje: 'Tipos de negocio', status: 200, data: rows }
+    } catch (error) {
+      return { mensaje: 'Error al obtener los tipos de negocio', status: 500, data: error }
+    }
+  }
+
   static async create ({ input }) {
     // id: id_tienda: randomUUID()
     const newItem = {
