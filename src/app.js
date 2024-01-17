@@ -44,11 +44,10 @@ app.use(cookieParser())
 // rutas
 app.use('/api/movimientos', createMovementRouter({ saleModel: SaleModel, purchaseModel: PurchaseModel, movementDetailModel: MovementDetailModel, paymentModel: PaymentModel }))
 app.use('/api/productos', createProductRouter({ productModel: ProductModel }))
-
+app.use('/api/categorias', createCategoryRouter({ categoryModel: CategoryModel }))
 app.use('/api/personas', createPersonRouter({ clientModel: ClientModel, supplierModel: SupplierModel, collaboratorModel: CollaboratorModel }))
 app.use('/api/usuarios', createUserRouter({ userModel: UserModel }))
 app.use('/api/tiendas', createStoreRouter({ storeModel: StoreModel, storePersonModel: StorePersonModel }))
-app.use('/api/categorias', createCategoryRouter({ categoryModel: CategoryModel }))
 
 app.use('*', (req, res) => {
   res.status(404).json({ mensaje: 'endpoint not found' })
