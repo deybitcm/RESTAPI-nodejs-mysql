@@ -9,7 +9,7 @@ export const createStoreRouter = ({ storeModel, storePersonModel }) => {
   const storePersonController = new StorePersonController({ storePersonModel })
 
   // Tiendas
-  storeRouter.get('/', storeController.obtenerTiendas)
+  storeRouter.get('/', storeController.obtenerTiendasPorIdPersona)
   storeRouter.post('/', storeController.registrarTienda)
 
   storeRouter.get('/tipos', storeController.obtenerTiposDeTienda)

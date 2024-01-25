@@ -15,8 +15,9 @@ export const createPersonRouter = ({ clientModel, supplierModel, collaboratorMod
   personRouter.post('/clientes', clientController.registrarCliente)
 
   personRouter.get('/clientes/:id', clientController.obtenerCliente)
+  personRouter.get('/clientes/tienda/:idTienda', clientController.obtenerClientesPorTienda)
   personRouter.patch('/clientes/:id', clientController.actualizarCliente)
-  personRouter.delete('/clientes/:id', clientController.eliminarCliente)
+  personRouter.delete('/clientes', clientController.eliminarCliente)
 
   // Proveedores
   personRouter.get('/proveedores', supplierController.obtenerProveedores)

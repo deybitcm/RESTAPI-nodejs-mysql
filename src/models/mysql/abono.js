@@ -68,26 +68,30 @@ export class PaymentModel {
   }
 
   static async update ({ id, input }) {
-    const consulta = await PaymentModel.getById({ id })
-    if (!consulta) {
-      return false
+    try {
+      const { data } = await PaymentModel.getById({ id })
+      if (data.length === 0) return { mensaje: 'No existe el abono', status: 404, data }
+
+      const valoresNuevos = { ...input }
+
+      await pool.query('UPDATE abono SET ? WHERE id_abono = ?', [valoresNuevos, id])
+
+      const consulta = await PaymentModel.getById({ id })
+
+      return { mensaje: 'Abono actualizado', status: 200, data: consulta.data }
+    } catch (error) {
+      return { mensaje: 'Error al actualizar el abono', status: 500 }
     }
-
-    const valoresNuevos = { ...input }
-
-    await pool.query('UPDATE abono SET ? WHERE id_abono = ?', [valoresNuevos, id])
-
-    const [nuevoRegistro] = await pool.query('SELECT * FROM abono WHERE id_abono = ?', [id])
-
-    return nuevoRegistro[0]
   }
 
   static async delete ({ id }) {
-    const consulta = await PaymentModel.getById({ id })
-    if (!consulta) {
-      return false
+    try {
+      const consulta = await PaymentModel.getById({ id })
+      if (consulta.data.length === 0) return { mensaje: 'No existe el abono', status: 404, data: consulta.data }
+      await pool.query('DELETE FROM abono WHERE id_abono = ?', [id])
+      return { mensaje: 'Abono eliminado', status: 200, data: consulta.data }
+    } catch (error) {
+      return { mensaje: 'Error al eliminar el abono', status: 500 }
     }
-    await pool.query('DELETE FROM abono WHERE id_abono = ?', [id])
-    return true
   }
 }

@@ -5,20 +5,24 @@ export class StoreController {
     this.storeModel = storeModel
   }
 
-  obtenerTiendas = async (req, res) => {
-    const result = await this.storeModel.getAll()
-    res.status(200).json(result)
+  obtenerTiendasPorIdPersona = async (req, res) => {
+    const personState = await this.storeModel.checkPersonState({ id: req.body.id })
+    if (personState === 0) return res.status(404).json({ mensaje: 'Persona no encontrada' })
+    if (personState === 1) return res.status(400).json({ mensaje: 'Persona inactiva' })
+    if (personState === -1) return res.status(500).json({ mensaje: 'Error al obtener persona' })
+    const result = await this.storeModel.getAllByPersonID({ id: req.body.id })
+    res.status(result.status).json(result)
   }
 
-  obtenerTienda = async (req, res) => {
+  obtenerTiendaPorId = async (req, res) => {
     const { id } = req.params
-    const result = await this.storeModel.getById({ id })
+    const result = await this.storeModel.getOneByStoreId({ id })
     if (result) return res.status(200).json(result)
     res.status(404).json({ mensaje: 'Tienda no encontrado' })
   }
 
   obtenerTiposDeTienda = async (req, res) => {
-    const result = await this.storeModel.getTypesOfStore()
+    const result = await this.storeModel.getAllTypesOfStore()
     res.status(result.status).json(result)
   }
 

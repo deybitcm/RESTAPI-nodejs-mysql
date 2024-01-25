@@ -43,15 +43,13 @@ export class ProductModel {
   static async create ({ input }) {
     // id: id_producto: randomUUID()
     try {
-      const newItem = {
-        ...input
-      }
+      const newItem = { ...input }
 
       const [{ insertId }] = await pool.query('INSERT INTO producto set ?', [newItem])
 
-      const { data } = await ProductModel.getById({ id: insertId })
+      const consulta = await ProductModel.getById({ id: insertId })
 
-      return { mensaje: 'Producto creado', status: 201, data }
+      return { mensaje: 'Producto creado', status: 201, data: consulta.data }
     } catch (error) {
       return { mensaje: 'Error al crear producto', status: 500 }
     }
@@ -68,9 +66,9 @@ export class ProductModel {
 
       await pool.query('UPDATE producto SET ? WHERE id_producto = ?', [valoresNuevos, id])
 
-      const { data: nuevoRegistro } = await ProductModel.getById({ id })
+      const consulta = await ProductModel.getById({ id })
 
-      return { mensaje: 'Producto actualizado', status: 200, data: nuevoRegistro }
+      return { mensaje: 'Producto actualizado', status: 200, data: consulta.data }
     } catch (error) {
       return { mensaje: 'Error al actualizar producto', status: 500 }
     }
@@ -83,7 +81,7 @@ export class ProductModel {
         return { mensaje: 'Producto no encontrado', status: 404, data }
       }
       await pool.query('CALL sp_desactivar_producto(?)', [id])
-      return { mensaje: 'Producto eliminado', status: 200 }
+      return { mensaje: 'Producto eliminado', status: 200, data }
     } catch (error) {
       return { mensaje: 'Error al eliminar producto', status: 500 }
     }
